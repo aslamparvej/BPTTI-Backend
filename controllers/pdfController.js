@@ -48,7 +48,12 @@ const uploadPdf = async (req, res) => {
 // Get all PDFs
 const getAllPdfs = async (req, res) => {
   try {
-    const pdfs = await Pdf.find();
+    const filter = {};
+    if (req.query.category) {
+      filter.category = req.query.category;
+    }
+    
+    const pdfs = await Pdf.find(filter);
     res.status(200).json(pdfs);
   } catch (error) {
     res.status(500).json({ message: error.message });
